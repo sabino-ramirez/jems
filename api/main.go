@@ -23,28 +23,21 @@ func run() error {
 	appConfig, err := config.NewAppConfig()
 	if err != nil {
 		log.Printf("%v", err)
-		os.Exit(1)
+		// os.Exit(1)
 	}
-  fmt.Println(appConfig.Port)
-  fmt.Println(appConfig.DBurl)
 
-	// db, err := config.InitDB(appConfig.DBurl)
-  db := repo.NewDAO()
+	dao := repo.NewDAO()
+  db, err := config.InitDB("./jems_db")
 	if err != nil {
 		log.Printf("error initialzing db: %v", err)
-		os.Exit(1)
+		// os.Exit(1)
 	}
 
-  srv := server.NewServer(db)
+	srv := server.NewServer(db, dao)
 
-  // server := &http.Server{
-  //   Addr: ":"+appConfig.Port,
-  //   Handler: srv,
-  // }
-
-  if err := http.ListenAndServe(":"+appConfig.Port, srv); err != nil {
-    log.Fatal(err)
-  }
+	if err := http.ListenAndServe(":"+appConfig.Port, srv); err != nil {
+		log.Fatal(err)
+	}
 
 	return nil
 }

@@ -1,8 +1,7 @@
 package config
 
 import (
-	// "database/sql"
-	// "fmt"
+	"database/sql"
 	"log"
 	"os"
 
@@ -27,11 +26,11 @@ func NewAppConfig() (App, error) {
 	return appConfig, nil
 }
 
-// func InitDB(dburl string) (*sql.DB, error) {
-// 	db, err := sql.Open("sqlite3", dburl)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-//
-// 	return db, nil
-// }
+func InitDB(dburl string) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", dburl)
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}

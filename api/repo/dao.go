@@ -1,20 +1,24 @@
 package repo
 
+import "database/sql"
+
 type DAO interface {
-  NewUserRepo() UserRepo
+	UserRepo(db *sql.DB) UserRepo
 }
 
 type dao struct{}
 
 func NewDAO() DAO {
-  d := &dao{}
-  return d
+	d := &dao{}
+	return d
 }
 
-func (d *dao) NewUserRepo() UserRepo {
-  return &userRepo{}
+func (d *dao) UserRepo(db *sql.DB) UserRepo {
+	return &userRepo{
+		db: db,
+	}
 }
 
-// func (d *dao) NewArtistRepo() ArtistRepo {
-//   return &artistRepo{}
+// func (d *dao) NewPlaylistRepo() PlaylistRepo {
+//   return &playlistRepo{}
 // }
